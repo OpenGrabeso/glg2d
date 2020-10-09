@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.geom.*;
 import net.opengrabeso.opengl.Jaagl2EventListener;
 import net.opengrabeso.opengl.SelectJaaglEventListener;
-import net.opengrabeso.opengl.util.awt.TextRenderer;
+import net.opengrabeso.ogltext.util.awt.TextRenderer;
 import org.joml.Math;
 import org.joml.Matrix4f;
 
@@ -31,15 +31,14 @@ public abstract class Issue344Base implements Jaagl2EventListener
     protected abstract String getText();
 
     protected void run(final String[] args) {
-        SelectJaaglEventListener jaaglEventListener = new SelectJaaglEventListener(this);
-        jaaglEventListener.run(args);
+        new SelectJaaglEventListener(this).run(args);
     }
 
     @Override
     public void init(final com.github.opengrabeso.jaagl.GL2GL3 gl) {
         gl.glEnable(gl.GL_DEPTH_TEST());
 
-        renderer = new TextRenderer(gl, font, antialias, false);
+        renderer = new TextRenderer(font, true, false, gl);
 
         final Rectangle2D bounds = renderer.getBounds(getText());
         final float w = (float) bounds.getWidth();
@@ -55,7 +54,7 @@ public abstract class Issue344Base implements Jaagl2EventListener
 
 
         final Matrix4f translate = new Matrix4f().translate(0, 0, -10);
-
+        final Matrix4f view = new Matrix4f().scale(16, -16, 1);
         final Rectangle2D bounds = renderer.getBounds(getText());
         final float w = (float) bounds.getWidth();
         final float h = (float) bounds.getHeight();
@@ -65,7 +64,8 @@ public abstract class Issue344Base implements Jaagl2EventListener
                         w / -2.0f * textScaleFactor,
                         h / -2.0f * textScaleFactor,
                         3f,
-                        textScaleFactor);
+                        textScaleFactor,
+                true);
 
         renderer.end3DRendering();
     }
