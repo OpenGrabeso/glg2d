@@ -53,13 +53,6 @@ public class Issue326Test1 extends Frame implements GLEventListener {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT|GL.GL_DEPTH_BUFFER_BIT);
 
 
-        gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-        gl.glLoadIdentity();
-        //new GLU().gluPerspective(45f, (float)width/(float)height, 0.1f, 1000f);
-        gl.glOrtho(0.0, 800, 0.0, 800, -100.0, 100.0);
-        gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-        gl.glLoadIdentity();
-
         tr.beginRendering(800,800);
         tr.draw( "die Marktwirtschaft. Da regelt sich � angeblich", 16, 32);
         tr.draw( "Hello World! This text is scrambled", 16, 16);

@@ -20,8 +20,6 @@ import java.awt.event.WindowEvent;
 
 public class Issue326Test2 extends Frame implements GLEventListener {
 
-    int width, height;
-
     public static void main(final String[] args) {
         new Issue326Test2();
     }
@@ -63,11 +61,6 @@ public class Issue326Test2 extends Frame implements GLEventListener {
 
     public void reshape(final GLAutoDrawable arg0, final int x, final int y, final int w, final int h) {
         final GL2 gl = arg0.getGL().getGL2();
-        gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-        gl.glLoadIdentity();
-        gl.glOrtho(0.0, w, 0.0, h, -1, 1);
-        gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-        gl.glLoadIdentity();
     }
 
     public void dispose(final GLAutoDrawable drawable) {}
