@@ -54,7 +54,6 @@ public abstract class Issue344Base implements Jaagl2EventListener
 
 
         final Matrix4f translate = new Matrix4f().translate(0, 0, -10);
-        final Matrix4f view = new Matrix4f().scale(16, -16, 1);
         final Rectangle2D bounds = renderer.getBounds(getText());
         final float w = (float) bounds.getWidth();
         final float h = (float) bounds.getHeight();
@@ -65,7 +64,7 @@ public abstract class Issue344Base implements Jaagl2EventListener
                         h / -2.0f * textScaleFactor,
                         3f,
                         textScaleFactor,
-                true);
+                false);
 
         renderer.end3DRendering();
     }
