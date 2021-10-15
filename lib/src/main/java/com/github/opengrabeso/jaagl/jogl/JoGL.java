@@ -123,6 +123,12 @@ public abstract class JoGL extends GLBase {
     }
 
     @Override
+    public int GL_VERSION() {
+        return com.jogamp.opengl.GL.GL_VERSION;
+    }
+
+
+    @Override
     public void glDisable(int par) {
         gl.glDisable(par);
     }
@@ -219,6 +225,10 @@ public abstract class JoGL extends GLBase {
         return ret[0];
     }
 
+    @Override
+    public String glGetString(int name) {
+        return gl.glGetString(name);
+    }
 
     @Override
     public int GL_UNPACK_ALIGNMENT() {

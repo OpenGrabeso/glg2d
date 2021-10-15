@@ -41,17 +41,27 @@ public abstract class Issue344Base implements Jaagl2EventListener
 
         renderer = new TextRenderer(gl, font, antialias, false);
 
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         final Rectangle2D bounds = renderer.getBounds(getText());
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
+
         final float w = (float) bounds.getWidth();
         // final float h = (float) bounds.getHeight();
         textScaleFactor = 2.0f / (w * 1.1f);
         //gl.setSwapInterval(0);
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
     }
 
     @Override
     public void display(final com.github.opengrabeso.jaagl.GL2GL3 gl) {
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         gl.glClearColor(0.8f, 0.5f, 0.5f, 1);
         gl.glClear(gl.GL_COLOR_BUFFER_BIT() | gl.GL_DEPTH_BUFFER_BIT());
+
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
 
 
         final Matrix4f translate = new Matrix4f().translate(0, 0, -10);
@@ -60,12 +70,20 @@ public abstract class Issue344Base implements Jaagl2EventListener
         final float w = (float) bounds.getWidth();
         final float h = (float) bounds.getHeight();
         final Matrix4f mvp = new Matrix4f().set(projection).mul(translate);
+
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         renderer.begin3DRendering(mvp.get(new float[16]));
+
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         renderer.draw3D(getText(),
                         w / -2.0f * textScaleFactor,
                         h / -2.0f * textScaleFactor,
                         3f,
                         textScaleFactor, false);
+
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
 
         renderer.end3DRendering();
     }

@@ -212,6 +212,8 @@ public class TextRenderer {
     public TextRenderer(final GL2GL3 gl, final Font font, final boolean antialiased,
                         final boolean useFractionalMetrics, RenderDelegate renderDelegate
     ) {
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         this.gl = gl;
         this.font = font;
         this.antialiased = antialiased;
@@ -227,7 +229,11 @@ public class TextRenderer {
 
         this.renderDelegate = renderDelegate;
 
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
+
         mGlyphProducer = new GlyphProducer(font.getNumGlyphs());
+
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
     }
 
     /**

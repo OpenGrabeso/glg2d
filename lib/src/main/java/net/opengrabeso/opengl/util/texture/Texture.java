@@ -481,6 +481,7 @@ public class Texture {
      * for construction of cube maps.
      */
     public void updateImage(final GL gl, final TextureData data) {
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
         validateTexID(gl, true);
 
         imgWidth = data.getWidth();
@@ -720,6 +721,7 @@ public class Texture {
     }
 
     private boolean validateTexID(final GL gl, final boolean throwException) {
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
         if (0 == texID) {
             if (null != gl) {
                 final int[] tmp = new int[1];

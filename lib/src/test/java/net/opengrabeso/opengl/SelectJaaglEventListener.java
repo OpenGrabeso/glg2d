@@ -5,6 +5,8 @@ import com.github.opengrabeso.jaagl.GL3;
 import com.jogamp.common.util.InterruptSource;
 import com.jogamp.opengl.awt.GLCanvas;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GLCapabilities;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -23,6 +25,11 @@ public class SelectJaaglEventListener {
         this.jaaglListener = jaaglListener;
     }
 
+    private String nullable(String s) {
+        if (s == null) return "null";
+        else return s;
+    }
+
     public void run(String[] args) {
         boolean jogl = Arrays.asList(args).contains("-jogl");
         boolean lwjgl = Arrays.asList(args).contains("-lwjgl");
@@ -31,6 +38,8 @@ public class SelectJaaglEventListener {
         }
 
         if (lwjgl) {
+
+            System.out.printf("Initializing LWJGL window, LWJGL %s, GLFW %s", nullable(org.lwjgl.Version.getVersion()), nullable(glfwGetVersionString()));
 
             // will print the error message in System.err.
             GLFWErrorCallback.createThrow().set();
@@ -61,21 +70,31 @@ public class SelectJaaglEventListener {
             int[] height = new int[1];
             glfwGetWindowSize(window, width, height);
 
-            org.lwjgl.opengl.GL.createCapabilities();
+            GLCapabilities caps = GL.createCapabilities();
 
             GL2GL3 gl = com.github.opengrabeso.jaagl.lwjgl.LWGL2.createGL3();
 
+            assert(gl.glGetString(gl.GL_VERSION()) != null);
+
             jaaglListener.init(gl);
 
+            assert(gl.glGetString(gl.GL_VERSION()) != null);
+
             jaaglListener.reshape(gl, 0, 0, width[0], height[0]);
+
+            assert(gl.glGetString(gl.GL_VERSION()) != null);
 
             glfwSetWindowSizeCallback(window, (windowHandle, w, h) ->
                         jaaglListener.reshape(gl, 0, 0, w, h)
                     );
 
+            assert(gl.glGetString(gl.GL_VERSION()) != null);
+
             // Run the rendering loop until the user has attempted to close
             // the window or has pressed the ESCAPE key.
             while ( !glfwWindowShouldClose(window) ) {
+
+                assert(gl.glGetString(gl.GL_VERSION()) != null);
 
                 jaaglListener.display(gl);
                 try {

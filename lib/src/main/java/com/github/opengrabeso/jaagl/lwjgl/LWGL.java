@@ -103,6 +103,11 @@ public abstract class LWGL extends GLBase {
     }
 
     @Override
+    public int GL_VERSION() {
+        return org.lwjgl.opengl.GL11.GL_VERSION;
+    }
+
+    @Override
     public void glDisable(int par) {
         org.lwjgl.opengl.GL11.glDisable(par);
     }
@@ -197,6 +202,11 @@ public abstract class LWGL extends GLBase {
         int[] ret = new int[]{0};
         org.lwjgl.opengl.GL11.glGetIntegerv(name, ret);
         return ret[0];
+    }
+
+    @Override
+    public String glGetString(int name) {
+        return org.lwjgl.opengl.GL11.glGetString(name);
     }
 
     @Override

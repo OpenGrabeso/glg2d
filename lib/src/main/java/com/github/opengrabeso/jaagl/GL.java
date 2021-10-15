@@ -33,6 +33,8 @@ public interface GL {
 
     int GL_VIEWPORT();
 
+    int GL_VERSION();
+
     void glDisable(int gl_lighting);
 
     void glEnable(int gl_blend);
@@ -67,9 +69,11 @@ public interface GL {
 
     int GL_MAX_TEXTURE_SIZE();
 
-    int glGetInteger(int gl_unpack_alignment);
+    String glGetString(int name);
 
-    void glGetIntegerv(int gl_max_texture_size, int[] size);
+    int glGetInteger(int name);
+
+    void glGetIntegerv(int name, int[] size);
 
     int GL_UNPACK_ALIGNMENT();
 

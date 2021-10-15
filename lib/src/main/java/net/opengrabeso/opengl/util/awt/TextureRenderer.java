@@ -466,6 +466,7 @@ public class TextureRenderer {
     private void beginRendering() {
         gl.glEnable(gl.GL_BLEND());
         gl.glBlendFunc(gl.GL_ONE(), gl.GL_ONE_MINUS_SRC_ALPHA());
+        assert(gl.glGetString(gl.GL_VERSION()) != null);
         final Texture texture = getTexture();
         texture.enable(gl);
         texture.bind(gl);
