@@ -81,10 +81,24 @@ public class GLG2DPanelLWJGL {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
+        GLFWMouseEventTranslator translator = new GLFWMouseEventTranslator(component);
+
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+        });
+        glfwSetMouseButtonCallback(window, (window, button, action, mods) -> translator.onMouseButton(button, action, mods));
+        glfwSetCursorPosCallback(window, (window, x, y) -> translator.onMouseMove((int)x, (int)y));
+
+        //Frame frame = new Frame(); // we need to create EDT
+        //frame.setVisible(true);
+
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.printf("invokeLater\n");
+            }
         });
 
         // Get the thread stack and push a new frame
