@@ -22,7 +22,7 @@ public class JoglExampleFactory {
 
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
-        frame.setContentPane(new GLG2DPanel(component));
+        frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(component.getPreferredSize());
         frame.setMinimumSize(component.getMinimumSize());
