@@ -17,6 +17,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * Note: example using GLFW is not interactive, EDT missing
+ **/
 public class GLG2DPanelLWJGL {
 
     private final JComponent component;

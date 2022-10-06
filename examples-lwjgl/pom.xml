@@ -99,6 +99,11 @@
       <version>${lwjgl.version}</version>
       <classifier>${lwjgl.natives}</classifier>
     </dependency>
+    <dependency>
+      <groupId>org.lwjglx</groupId>
+      <artifactId>lwjgl3-awt</artifactId>
+      <version>0.1.8</version>
+    </dependency>
 
 
     <!--  TODO: remove JOGL dependencies from LWJGL implementation -->
