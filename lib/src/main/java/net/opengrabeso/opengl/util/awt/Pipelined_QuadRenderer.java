@@ -42,8 +42,10 @@ public abstract class Pipelined_QuadRenderer {
         mVert.put(inX);
         mVert.put(inY);
         mVert.put(inZ);
+    }
 
-        mOutstandingGlyphsVerticesPipeline++;
+    private void addedVertices(int count) {
+        mOutstandingGlyphsVerticesPipeline += count;
 
         if (mOutstandingGlyphsVerticesPipeline >= TextRenderer.vertsPerBuffer) {
             this.draw();
@@ -91,11 +93,15 @@ public abstract class Pipelined_QuadRenderer {
         glVertex3f(xx + width, yy + height, z);
         glTexCoord2f(coords.right(), coords.top());
 
+        addedVertices(3);
+
         glVertex3f(xx, yy, z);
         glTexCoord2f(coords.left(), coords.bottom());
         glVertex3f(xx + width, yy + height, z);
         glTexCoord2f(coords.right(), coords.top());
         glVertex3f(xx, yy + height, z);
         glTexCoord2f(coords.left(), coords.top());
+
+        addedVertices(3);
     }
 }
