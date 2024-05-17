@@ -52,8 +52,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.github.opengrabeso.jaagl.GL2GL3;
-import com.jogamp.common.nio.Buffers;
-import net.opengrabeso.glg2d.impl.shader.AbstractShaderPipeline;
 import net.opengrabeso.glg2d.impl.shader.AnyModePipeline;
 import net.opengrabeso.opengl.util.texture.*;
 import net.opengrabeso.opengl.util.texture.awt.*;
@@ -197,8 +195,8 @@ public class TextureRenderer {
         gl.glEnableVertexAttribArray(vertCoordAttrib);
         gl.glEnableVertexAttribArray(texCoordAttrib);
 
-        gl.glVertexAttribPointer(vertCoordAttrib, 3, gl.GL_FLOAT(), false, 5 * Buffers.SIZEOF_FLOAT, 0);
-        gl.glVertexAttribPointer(texCoordAttrib, 2, gl.GL_FLOAT(), false, 5 * Buffers.SIZEOF_FLOAT, 3 * Buffers.SIZEOF_FLOAT);
+        gl.glVertexAttribPointer(vertCoordAttrib, 3, gl.GL_FLOAT(), false, 5 * Float.BYTES, 0);
+        gl.glVertexAttribPointer(texCoordAttrib, 2, gl.GL_FLOAT(), false, 5 * Float.BYTES, 3 * Float.BYTES);
     }
 
     private void cleanupVertexAttributesImpl() {

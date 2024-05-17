@@ -17,10 +17,9 @@ package net.opengrabeso.glg2d;
 
 import java.nio.FloatBuffer;
 
-import com.github.opengrabeso.jaagl.GL;
 import com.github.opengrabeso.jaagl.GL2;
 
-import com.jogamp.common.nio.Buffers;
+import net.opengrabeso.opengl.util.buffers.Buffers;
 
 /**
  * Wraps a simple {@code FloatBuffer} and makes it easier to push 2-D vertices

@@ -1,7 +1,7 @@
 package net.opengrabeso.opengl.util.awt;
 
 import com.github.opengrabeso.jaagl.GL2GL3;
-import com.jogamp.common.nio.Buffers;
+import net.opengrabeso.opengl.util.buffers.Buffers;
 import net.opengrabeso.opengl.util.texture.TextureCoords;
 
 import java.nio.FloatBuffer;

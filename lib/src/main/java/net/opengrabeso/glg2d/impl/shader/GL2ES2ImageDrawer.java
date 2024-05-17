@@ -20,15 +20,13 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.nio.FloatBuffer;
 
-import com.github.opengrabeso.jaagl.GL;
 import com.github.opengrabeso.jaagl.GL2GL3;
 
-import com.github.opengrabeso.jaagl.jogl.JoGL;
+import net.opengrabeso.opengl.util.buffers.Buffers;
 import net.opengrabeso.opengl.util.texture.Texture;
 import net.opengrabeso.glg2d.GLGraphics2D;
 import net.opengrabeso.glg2d.impl.AbstractImageHelper;
 
-import com.jogamp.common.nio.Buffers;
 
 public class GL2ES2ImageDrawer extends AbstractImageHelper {
     protected GLShaderGraphics2D g2d;

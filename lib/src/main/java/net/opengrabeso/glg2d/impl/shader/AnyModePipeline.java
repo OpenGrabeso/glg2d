@@ -19,8 +19,6 @@ import java.nio.FloatBuffer;
 
 import com.github.opengrabeso.jaagl.GL2GL3;
 
-import com.jogamp.common.nio.Buffers;
-
 public class AnyModePipeline extends AbstractShaderPipeline {
     protected int vertCoordBuffer = -1;
     protected int vertCoordLocation = -1;
@@ -58,7 +56,7 @@ public class AnyModePipeline extends AbstractShaderPipeline {
         bindBuffer(gl);
 
         int count = vertexBuffer.limit() - vertexBuffer.position();
-        gl.glBufferData(gl.GL_ARRAY_BUFFER(), Buffers.SIZEOF_FLOAT * count, vertexBuffer, gl.GL_STREAM_DRAW());
+        gl.glBufferData(gl.GL_ARRAY_BUFFER(), Float.BYTES * count, vertexBuffer, gl.GL_STREAM_DRAW());
     }
 
     public void unbindBuffer(GL2GL3 gl) {

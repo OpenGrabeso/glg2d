@@ -23,7 +23,7 @@ import com.github.opengrabeso.jaagl.GL2GL3;
 
 import net.opengrabeso.glg2d.GLG2DUtils;
 
-import com.jogamp.common.nio.Buffers;
+import net.opengrabeso.opengl.util.buffers.Buffers;
 
 public class GeometryShaderStrokePipeline extends AbstractShaderPipeline {
     public static final int DRAW_END_NONE = 0;
@@ -85,17 +85,17 @@ public class GeometryShaderStrokePipeline extends AbstractShaderPipeline {
 
         if (gl.glIsBuffer(vertCoordBuffer)) {
             gl.glBindBuffer(gl.GL_ARRAY_BUFFER(), vertCoordBuffer);
-            gl.glBufferSubData(gl.GL_ARRAY_BUFFER(), 0, Buffers.SIZEOF_FLOAT * vertexBuffer.limit(), vertexBuffer);
+            gl.glBufferSubData(gl.GL_ARRAY_BUFFER(), 0, Float.BYTES * vertexBuffer.limit(), vertexBuffer);
         } else {
             vertCoordBuffer = GLG2DUtils.genBufferId(gl);
 
             gl.glBindBuffer(gl.GL_ARRAY_BUFFER(), vertCoordBuffer);
-            gl.glBufferData(gl.GL_ARRAY_BUFFER(), Buffers.SIZEOF_FLOAT * vertexBuffer.capacity(), vertexBuffer, gl.GL_STREAM_DRAW());
+            gl.glBufferData(gl.GL_ARRAY_BUFFER(), Float.BYTES * vertexBuffer.capacity(), vertexBuffer, gl.GL_STREAM_DRAW());
         }
 
-        gl.glVertexAttribPointer(vertCoordLocation, 2, gl.GL_FLOAT(), false, 0, 2 * Buffers.SIZEOF_FLOAT);
+        gl.glVertexAttribPointer(vertCoordLocation, 2, gl.GL_FLOAT(), false, 0, 2 * Float.BYTES);
         gl.glVertexAttribPointer(vertBeforeLocation, 2, gl.GL_FLOAT(), false, 0, 0);
-        gl.glVertexAttribPointer(vertAfterLocation, 2, gl.GL_FLOAT(), false, 0, 4 * Buffers.SIZEOF_FLOAT);
+        gl.glVertexAttribPointer(vertAfterLocation, 2, gl.GL_FLOAT(), false, 0, 4 * Float.BYTES);
     }
 
     public void draw(GL2GL3 gl, FloatBuffer vertexBuffer, boolean close) {

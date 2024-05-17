@@ -27,7 +27,7 @@ import java.nio.FloatBuffer;
 
 import net.opengrabeso.glg2d.VertexBuffer;
 
-import com.jogamp.common.nio.Buffers;
+import net.opengrabeso.opengl.util.buffers.Buffers;
 
 /**
  * Draws a line, as outlined by a {@link BasicStroke}. The current

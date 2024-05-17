@@ -21,8 +21,6 @@ import java.nio.FloatBuffer;
 
 import com.github.opengrabeso.jaagl.GL2GL3;
 
-import com.jogamp.common.nio.Buffers;
-
 public class GL2ES2ImagePipeline extends AbstractShaderPipeline {
     protected int vertexBufferId = -1;
     protected int vertexArrayId = -1;
@@ -61,10 +59,10 @@ public class GL2ES2ImagePipeline extends AbstractShaderPipeline {
         gl.glEnableVertexAttribArray(texCoordLocation);
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER(), vertexBufferId);
-        gl.glBufferData(gl.GL_ARRAY_BUFFER(), Buffers.SIZEOF_FLOAT * 16, buffer, gl.GL_STATIC_DRAW());
+        gl.glBufferData(gl.GL_ARRAY_BUFFER(), Float.BYTES * 16, buffer, gl.GL_STATIC_DRAW());
 
-        gl.glVertexAttribPointer(vertCoordLocation, 2, gl.GL_FLOAT(), false, 4 * Buffers.SIZEOF_FLOAT, 0);
-        gl.glVertexAttribPointer(texCoordLocation, 2, gl.GL_FLOAT(), false, 4 * Buffers.SIZEOF_FLOAT, 2 * Buffers.SIZEOF_FLOAT);
+        gl.glVertexAttribPointer(vertCoordLocation, 2, gl.GL_FLOAT(), false, 4 * Float.BYTES, 0);
+        gl.glVertexAttribPointer(texCoordLocation, 2, gl.GL_FLOAT(), false, 4 * Float.BYTES, 2 * Float.BYTES);
     }
 
     public void draw(GL2GL3 gl, FloatBuffer interleavedVertTexBuffer) {
