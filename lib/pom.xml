@@ -30,6 +30,7 @@
       <groupId>org.joml</groupId>
       <artifactId>joml</artifactId>
       <version>1.9.25</version>
+      <scope>test</scope>
     </dependency>
 
     <!-- JOGL as provided only, so that the user can opt-in -->
