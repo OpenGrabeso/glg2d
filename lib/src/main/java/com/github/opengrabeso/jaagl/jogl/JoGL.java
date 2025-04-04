@@ -371,11 +371,6 @@ public abstract class JoGL extends GLBase {
     }
 
     @Override
-    public int GL_GENERATE_MIPMAP() {
-        return com.jogamp.opengl.GL2ES1.GL_GENERATE_MIPMAP;
-    }
-
-    @Override
     public void glTexParameterf(int gl_texture_env, int gl_texture_env_mode, float gl_blend) {
         gl.glTexParameterf(gl_texture_env, gl_texture_env_mode, gl_blend);
     }

@@ -91,7 +91,7 @@ public final class ShaderLoader {
                 prefixedSource = String.join("\n", prefixVertex) + strippedSource;
             }
         }
-        return prefixedSource;
+        return gl.adjustShader(prefixedSource);
     }
     /**
      * Checks that a shader was compiled correctly.

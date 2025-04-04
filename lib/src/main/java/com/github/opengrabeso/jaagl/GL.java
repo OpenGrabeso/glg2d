@@ -19,6 +19,8 @@ public interface GL {
 
     boolean versionAtLeast(int major, int minor);
 
+    String adjustShader(String shader);
+
     int GL_TEXTURE0();
 
     int GL_SCISSOR_TEST();
@@ -138,8 +140,6 @@ public interface GL {
     int GL_TEXTURE_CUBE_MAP();
 
     int GL_TEXTURE_WRAP_R();
-
-    int GL_GENERATE_MIPMAP();
 
     void glTexParameterf(int gl_texture_env, int gl_texture_env_mode, float gl_blend);
 

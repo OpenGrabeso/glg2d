@@ -29,5 +29,11 @@ public abstract class GLBase implements GL {
         return versionMajor > major || versionMajor == major && versionMinor >= minor;
     }
 
+    @Override
+    public String adjustShader(String shader) {
+        return shader;
+    }
+
+
 
 }

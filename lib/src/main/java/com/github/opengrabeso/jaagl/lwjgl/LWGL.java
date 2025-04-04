@@ -362,11 +362,6 @@ public abstract class LWGL extends GLBase {
     }
 
     @Override
-    public int GL_GENERATE_MIPMAP() {
-        return org.lwjgl.opengl.GL14.GL_GENERATE_MIPMAP;
-    }
-
-    @Override
     public void glTexParameterf(int gl_texture_env, int gl_texture_env_mode, float gl_blend) {
         org.lwjgl.opengl.GL11.glTexParameterf(gl_texture_env, gl_texture_env_mode, gl_blend);
     }
