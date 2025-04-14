@@ -24,11 +24,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.image.RenderedImage;
-import java.awt.image.VolatileImage;
+import java.awt.image.*;
 import java.awt.image.renderable.RenderableImage;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -264,7 +260,24 @@ public abstract class AbstractImageHelper implements GLG2DImageHelper {
 
     @Override
     public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
-        notImplemented("drawImage(BufferedImage, BufferedImageOp, int, int)");
+        Texture texture = getTexture(img, null);
+        if (texture != null) {
+            AffineTransform transform = AffineTransform.getTranslateInstance(x, y);
+            Color bgcolor = null;
+            if (op instanceof RescaleOp) {
+                RescaleOp rescaleOp = (RescaleOp)op;
+                if (rescaleOp.getNumFactors() == 3) {
+                    float[] offsets = rescaleOp.getOffsets(null);
+                    float[] factors = rescaleOp.getScaleFactors(null);
+                    if (offsets[0] == 0 && offsets[1] == 0 && offsets[2] == 0) {
+                        bgcolor = new Color(factors[0], factors[1], factors[2]);
+                    }
+                }
+            }
+            begin(texture, transform, bgcolor);
+            applyTexture(texture);
+            end(texture);
+        }
     }
 
     @Override

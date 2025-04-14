@@ -86,11 +86,12 @@ public class GL2ES2ImageDrawer extends AbstractImageHelper {
 
         shader.use(gl, true);
 
+        float alpha = g2d.getUniformsObject().colorHook.getAlpha();
         if (bgcolor == null) {
-            white[3] = g2d.getUniformsObject().colorHook.getAlpha();
+            white[3] = alpha;
             shader.setColor(gl, white);
         } else {
-            float[] rgba = g2d.getUniformsObject().colorHook.getRGBA();
+            float[] rgba = {bgcolor.getRed() / 255f, bgcolor.getGreen() / 255f, bgcolor.getBlue() / 255f, alpha};
             shader.setColor(gl, rgba);
         }
 
