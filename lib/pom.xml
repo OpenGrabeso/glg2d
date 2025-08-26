@@ -68,6 +68,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.lwjglx</groupId>
+      <artifactId>lwjgl3-awt</artifactId>
+      <version>0.1.8</version>
+    </dependency>
+
   </dependencies>
 
 
