@@ -110,6 +110,7 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
     protected Rectangle clip;
     // When non-null, a complex clipping shape is active and stored in user-space coordinates
     protected Shape clipComplex;
+    protected Rectangle clipComplexRect;
 
     protected GraphicsConfiguration graphicsConfig;
 
@@ -479,9 +480,9 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
 
     @Override
     public Rectangle getClipBounds() {
-        if (clipComplex != null) {
+        if (clipComplexRect != null) {
             // clipComplex is stored in user space
-            return clipComplex.getBounds();
+            return clipComplexRect;
         }
         if (clip == null) {
             return null;
@@ -587,37 +588,38 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
         clip = null;
         // store user-space shape
         clipComplex = shape;
+        clipComplexRect = shape.getBounds();
 
-        // Prepare stencil: clear to 0 (default clear value is 0) and draw the shape writing 1s
-        // TODO: clear only bounding rectangle to reduce fillrate requirements
+        // we assume the stencil is kept at zero value
         gl.glEnable(gl.GL_STENCIL_TEST());
-        gl.glClearStencil(0);
-        gl.glClear(gl.GL_STENCIL_BUFFER_BIT());
+        gl.glColorMask(false, false, false, false);
 
         // Write 1 to stencil wherever the shape draws
         gl.glStencilFunc(gl.GL_ALWAYS(), 0xff, 0xFF);
         gl.glStencilOp(gl.GL_KEEP(), gl.GL_KEEP(), gl.GL_REPLACE());
-        gl.glColorMask(false, false, false, false);
 
-        // Render the shape filled with current transform; use fully transparent color to avoid visible output
         shapeHelper.fill(shape);
         gl.glColorMask(true, true, true, true);
 
-        // Now configure to only draw where stencil == 1
+        // Now configure to only draw where the stencil is set
         gl.glStencilFunc(gl.GL_EQUAL(), 0xff, 0xFF);
     }
 
     protected void disableComplexClip() {
         if (clipComplex != null) {
             GL gl = getGL();
-            // optional: clear stencil to avoid affecting future frames
-            gl.glClearStencil(0);
-            gl.glClear(gl.GL_STENCIL_BUFFER_BIT());
+
+            // clear the stencil after us to avoid artifacts
             gl.glStencilFunc(gl.GL_ALWAYS(), 0, 0xFF);
             gl.glStencilOp(gl.GL_REPLACE(), gl.GL_REPLACE(), gl.GL_REPLACE());
+            gl.glColorMask(false, false, false, false);
+            fillRect(clipComplexRect.x, clipComplexRect.y, clipComplexRect.width, clipComplexRect.height);
+            gl.glColorMask(true, true, true, true);
+
             gl.glDisable(gl.GL_STENCIL_TEST());
             clipComplex = null;
         }
+        clipComplexRect = null;
     }
 
     @Override
