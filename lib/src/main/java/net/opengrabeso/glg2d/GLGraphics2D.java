@@ -108,6 +108,8 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
      * changed.
      */
     protected Rectangle clip;
+    // When non-null, a complex clipping shape is active and stored in user-space coordinates
+    protected Shape clipComplex;
 
     protected GraphicsConfiguration graphicsConfig;
 
@@ -226,6 +228,7 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
     }
 
     public void postPaint() {
+        disableComplexClip();
         // could glFlush here, but not necessary
     }
 
@@ -476,6 +479,10 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
 
     @Override
     public Rectangle getClipBounds() {
+        if (clipComplex != null) {
+            // clipComplex is stored in user space
+            return clipComplex.getBounds();
+        }
         if (clip == null) {
             return null;
         } else {
@@ -527,11 +534,14 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
     @Override
     public void setClip(Shape clipShape) {
         if (clipShape instanceof Rectangle2D) {
+            disableComplexClip();
             setClip((Rectangle2D) clipShape, false);
         } else if (clipShape == null) {
+            disableComplexClip();
             setClip(null, false);
         } else {
-            setClip(clipShape.getBounds2D(), false);
+            // Enable complex clip via stencil mask
+            enableComplexClip(clipShape);
         }
     }
 
@@ -566,6 +576,47 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
         } else {
             clip = null;
             gl.glDisable(gl.GL_SCISSOR_TEST());
+        }
+    }
+
+    // Complex clip using stencil buffer
+    protected void enableComplexClip(Shape shape) {
+        GL gl = getGL();
+        // disable rectangular scissor if active
+        gl.glDisable(gl.GL_SCISSOR_TEST());
+        clip = null;
+        // store user-space shape
+        clipComplex = shape;
+
+        // Prepare stencil: clear to 0 (default clear value is 0) and draw the shape writing 1s
+        // TODO: clear only bounding rectangle to reduce fillrate requirements
+        gl.glEnable(gl.GL_STENCIL_TEST());
+        gl.glClearStencil(0);
+        gl.glClear(gl.GL_STENCIL_BUFFER_BIT());
+
+        // Write 1 to stencil wherever the shape draws
+        gl.glStencilFunc(gl.GL_ALWAYS(), 0xff, 0xFF);
+        gl.glStencilOp(gl.GL_KEEP(), gl.GL_KEEP(), gl.GL_REPLACE());
+        gl.glColorMask(false, false, false, false);
+
+        // Render the shape filled with current transform; use fully transparent color to avoid visible output
+        shapeHelper.fill(shape);
+        gl.glColorMask(true, true, true, true);
+
+        // Now configure to only draw where stencil == 1
+        gl.glStencilFunc(gl.GL_EQUAL(), 0xff, 0xFF);
+    }
+
+    protected void disableComplexClip() {
+        if (clipComplex != null) {
+            GL gl = getGL();
+            // optional: clear stencil to avoid affecting future frames
+            gl.glClearStencil(0);
+            gl.glClear(gl.GL_STENCIL_BUFFER_BIT());
+            gl.glStencilFunc(gl.GL_ALWAYS(), 0, 0xFF);
+            gl.glStencilOp(gl.GL_REPLACE(), gl.GL_REPLACE(), gl.GL_REPLACE());
+            gl.glDisable(gl.GL_STENCIL_TEST());
+            clipComplex = null;
         }
     }
 
@@ -719,8 +770,14 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
                     helpers[i].pop(parent);
                 }
 
+                disableComplexClip();
+
                 // the parent needs to set its clip
-                parent.scissor(parent.clip != null);
+                if (parent.clipComplex != null) {
+                    parent.enableComplexClip(parent.clipComplex);
+                } else {
+                    parent.scissor(parent.clip != null);
+                }
             }
         }
     }

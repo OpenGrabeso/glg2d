@@ -327,8 +327,28 @@ public abstract class LWGL extends GLBase {
     }
 
     @Override
+    public void glClearStencil(int i) {
+        org.lwjgl.opengl.GL11.glClearStencil(i);
+    }
+
+    @Override
+    public void glStencilOp(int sfail, int dpfail, int dppass) {
+        org.lwjgl.opengl.GL11.glStencilOp(sfail, dpfail, dppass);
+    }
+
+    @Override
+    public void glStencilFunc(int func, int ref, int mask) {
+        org.lwjgl.opengl.GL11.glStencilFunc(func, ref, mask);
+    }
+
+    @Override
     public void glClear(int gl_color_buffer_bit) {
         org.lwjgl.opengl.GL11.glClear(gl_color_buffer_bit);
+    }
+
+    @Override
+    public void glColorMask(boolean red, boolean green, boolean blue, boolean alpha) {
+        org.lwjgl.opengl.GL11.glColorMask(red, green, blue, alpha);
     }
 
     @Override
@@ -430,4 +450,12 @@ public abstract class LWGL extends GLBase {
     public int GL_ZERO() {
         return org.lwjgl.opengl.GL11.GL_ZERO;
     }
+
+    @Override public int GL_STENCIL_TEST() {return org.lwjgl.opengl.GL11.GL_STENCIL_TEST;}
+    @Override public int GL_STENCIL_BUFFER_BIT() {return org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;}
+    @Override public int GL_ALWAYS() {return org.lwjgl.opengl.GL11.GL_ALWAYS;}
+    @Override public int GL_EQUAL() {return org.lwjgl.opengl.GL11.GL_EQUAL;}
+    @Override public int GL_KEEP() {return org.lwjgl.opengl.GL11.GL_KEEP;}
+    @Override public int GL_REPLACE() {return org.lwjgl.opengl.GL11.GL_REPLACE;}
+
 }

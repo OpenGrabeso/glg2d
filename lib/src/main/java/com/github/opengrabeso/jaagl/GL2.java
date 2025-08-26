@@ -11,8 +11,6 @@ public interface GL2 extends GL, GL2GL3 {
 
     int GL_MODELVIEW();
 
-    void glBlendFunc(int gl_src_alpha, int gl_one_minus_src_alpha);
-
     void glTexEnvi(int gl_texture_env, int gl_texture_env_mode, int gl_modulate);
 
     void glMatrixMode(int gl_projection);

@@ -119,9 +119,17 @@ public interface GL {
 
     void glClearColor(float i, float i1, float i2, float i3);
 
+    void glClearStencil(int x);
+
+    void glStencilFunc(int func, int ref, int mask);
+
+    void glStencilOp(int sfail, int dpfail, int dppass);
+
     void glClear(int gl_color_buffer_bit);
 
     void glViewport(int i, int i1, int i2, int i3);
+
+    void glColorMask(boolean red, boolean green, boolean blue, boolean alpha);
 
     int glGetError();
 
@@ -170,4 +178,12 @@ public interface GL {
     void glScissor(int x, int i, int max, int max1);
 
     int GL_ZERO();
+
+    int GL_STENCIL_TEST();
+    int GL_STENCIL_BUFFER_BIT();
+    int GL_ALWAYS();
+    int GL_EQUAL();
+    int GL_KEEP();
+    int GL_REPLACE();
+
 }

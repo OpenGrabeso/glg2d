@@ -47,6 +47,7 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
         data.profile = GLData.Profile.CORE;
         data.doubleBuffer = true;
         data.samples = 0;
+        data.stencilSize = 8;
         data.swapInterval = 1; // vsync
         return data;
     }
@@ -84,7 +85,7 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
         int h = Math.max(1, getHeight());
 
         GL11.glViewport(0, 0, w, h);
-        Color bg = component != null && component.getBackground() != null ? component.getBackground() : Color.WHITE;
+        Color bg = component != null && component.getBackground() != null ? component.getBackground() : Color.DARK_GRAY;
         GL11.glClearColor(bg.getRed()/255f, bg.getGreen()/255f, bg.getBlue()/255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
 
