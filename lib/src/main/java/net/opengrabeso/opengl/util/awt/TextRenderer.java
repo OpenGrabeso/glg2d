@@ -1287,11 +1287,28 @@ public class TextRenderer {
         }
     }
 
+
+    final class LRUGlyphVectorCache extends LinkedHashMap<String, GlyphVector> {
+        private final int maxEntries;
+
+        LRUGlyphVectorCache(int maxEntries) {
+            // accessOrder=true => LRU by access (get/put)
+            super(Math.max(16, maxEntries * 2), 0.75f, true);
+            this.maxEntries = Math.max(1, maxEntries);
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, GlyphVector> eldest) {
+            return size() > maxEntries;
+        }
+    }
+
     class GlyphProducer {
         static final int undefined = -2;
         final FontRenderContext fontRenderContext = null; // FIXME: Never initialized!
         List<Glyph> glyphsOutput = new ArrayList<Glyph>();
-        HashMap<String, GlyphVector> fullGlyphVectorCache = new HashMap<String, GlyphVector>();
+        // Limit full string cache, as strings can be very varied, esp. when using variables in them.
+        HashMap<String, GlyphVector> fullGlyphVectorCache = new LRUGlyphVectorCache(1000);
         HashMap<Character, GlyphMetrics> glyphMetricsCache = new HashMap<Character, GlyphMetrics>();
         // The mapping from unicode character to font-specific glyph ID
         int[] unicodes2Glyphs;
@@ -1299,6 +1316,7 @@ public class TextRenderer {
         Glyph[] glyphCache;
         // We re-use this for each incoming string
         CharSequenceIterator iter = new CharSequenceIterator();
+
 
         GlyphProducer(final int fontLengthInGlyphs) {
             unicodes2Glyphs = new int[512];
