@@ -306,6 +306,12 @@ public abstract class JoGL extends GLBase {
     }
 
     @Override
+    public void glBlendFuncSeparate(int sfactorRGB, int dfactorRGB, int sfactorAlpha, int dfactorAlpha) {
+        gl.glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+    }
+
+
+    @Override
     public RuntimeException newGLException(String log) {
         return new GLException(log);
     }

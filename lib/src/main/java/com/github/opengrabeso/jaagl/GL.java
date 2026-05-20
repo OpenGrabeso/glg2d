@@ -105,7 +105,9 @@ public interface GL {
 
     int GL_ONE();
 
-    void glBlendFunc(int gl_one, int gl_one_minus_src_alpha);
+    void glBlendFunc(int sfactor, int dfactor);
+
+    void glBlendFuncSeparate(int sfactorRGB, int dfactorRGB, int sfactorAlpha, int dfactorAlpha);
 
     RuntimeException newGLException(String log);
 

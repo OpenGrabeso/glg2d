@@ -84,32 +84,32 @@ public abstract class AbstractColorHelper implements GLG2DColorHelper {
                  */
                 case AlphaComposite.SRC:
                 case AlphaComposite.SRC_IN:
-                    gl.glBlendFunc(gl.GL_SRC_ALPHA(), gl.GL_ZERO());
+                    gl.glBlendFuncSeparate(gl.GL_SRC_ALPHA(), gl.GL_ZERO(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
 
                 case AlphaComposite.SRC_OVER:
                 case AlphaComposite.SRC_ATOP:
-                    gl.glBlendFunc(gl.GL_SRC_ALPHA(), gl.GL_ONE_MINUS_SRC_ALPHA());
+                    gl.glBlendFuncSeparate(gl.GL_SRC_ALPHA(), gl.GL_ONE_MINUS_SRC_ALPHA(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
 
                 case AlphaComposite.SRC_OUT:
                 case AlphaComposite.CLEAR:
-                    gl.glBlendFunc(gl.GL_ZERO(), gl.GL_ZERO());
+                    gl.glBlendFuncSeparate(gl.GL_ZERO(), gl.GL_ZERO(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
 
                 case AlphaComposite.DST:
                 case AlphaComposite.DST_OVER:
-                    gl.glBlendFunc(gl.GL_ZERO(), gl.GL_ONE());
+                    gl.glBlendFuncSeparate(gl.GL_ZERO(), gl.GL_ONE(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
 
                 case AlphaComposite.DST_IN:
                 case AlphaComposite.DST_ATOP:
-                    gl.glBlendFunc(gl.GL_ZERO(), gl.GL_SRC_ALPHA());
+                    gl.glBlendFuncSeparate(gl.GL_ZERO(), gl.GL_SRC_ALPHA(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
 
                 case AlphaComposite.DST_OUT:
                 case AlphaComposite.XOR:
-                    gl.glBlendFunc(gl.GL_ZERO(), gl.GL_ONE_MINUS_SRC_ALPHA());
+                    gl.glBlendFuncSeparate(gl.GL_ZERO(), gl.GL_ONE_MINUS_SRC_ALPHA(), gl.GL_ZERO(), gl.GL_ONE());
                     break;
             }
 

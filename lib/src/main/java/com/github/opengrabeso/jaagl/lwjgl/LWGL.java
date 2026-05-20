@@ -292,8 +292,12 @@ public abstract class LWGL extends GLBase {
     }
 
     @Override
-    public void glBlendFunc(int gl_one, int gl_one_minus_src_alpha) {
-        org.lwjgl.opengl.GL11.glBlendFunc(gl_one, gl_one_minus_src_alpha);
+    public void glBlendFunc(int sfactor, int dfactor) {
+        org.lwjgl.opengl.GL11.glBlendFunc(sfactor, dfactor);
+    }
+    @Override
+    public void glBlendFuncSeparate(int sfactorRGB, int dfactorRGB, int sfactorAlpha, int dfactorAlpha) {
+        org.lwjgl.opengl.GL14.glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
     }
 
     @Override
