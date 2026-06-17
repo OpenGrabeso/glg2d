@@ -143,4 +143,12 @@ public class GL2ES2SimpleConvexFillVisitor extends SimplePathVisitor implements 
 
         vertexBuffer.rewind();
     }
+
+    @Override
+    public void dispose() {
+        if (gl != null) {
+            pipeline.delete(gl);
+            gl = null;
+        }
+    }
 }

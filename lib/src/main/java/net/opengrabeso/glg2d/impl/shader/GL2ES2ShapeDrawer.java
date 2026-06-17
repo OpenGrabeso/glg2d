@@ -76,4 +76,11 @@ public class GL2ES2ShapeDrawer extends AbstractShapeHelper {
             traceShape(shape, complexFillVisitor);
         }
     }
+
+    @Override
+    public void dispose() {
+        lineVisitor.dispose();
+        simpleFillVisitor.dispose();
+        tesselatingVisitor.dispose();
+    }
 }

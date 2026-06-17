@@ -84,4 +84,12 @@ public class GL2ES2TesselatingVisitor extends AbstractTesselatorVisitor implemen
 
         pipeline.draw(gl, drawMode, buf);
     }
+
+    @Override
+    public void dispose() {
+        if (gl != null) {
+            pipeline.delete(gl);
+            gl = null;
+        }
+    }
 }

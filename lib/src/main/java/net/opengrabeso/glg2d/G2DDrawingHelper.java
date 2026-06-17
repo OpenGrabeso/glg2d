@@ -73,7 +73,9 @@ public interface G2DDrawingHelper {
      * Disposes the helper object. This is not called during the dispose operation
      * of the {@code Graphics2D} object. This should dispose all GL resources when
      * all drawing is finished and no more calls will be executing on this OpenGL
-     * context and these resources.
+     * context and these resources. In practice this is invoked from
+     * {@link GLGraphics2D#glDispose()} once the root GL context is being shut
+     * down.
      */
     void dispose();
 }

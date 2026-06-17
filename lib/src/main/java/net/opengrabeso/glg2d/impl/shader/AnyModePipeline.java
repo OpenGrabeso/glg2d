@@ -90,10 +90,12 @@ public class AnyModePipeline extends AbstractShaderPipeline {
 
         if (gl.glIsBuffer(vertCoordBuffer)) {
             gl.glDeleteBuffers(new int[]{vertCoordBuffer});
+            vertCoordBuffer = -1;
         }
 
         if (vertexArrayId >= 0) {
             gl.glDeleteVertexArrays(new int[]{vertexArrayId});
+            vertexArrayId = -1;
         }
     }
 }

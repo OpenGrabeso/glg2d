@@ -185,6 +185,9 @@ public class GeometryShaderStrokePipeline extends AbstractShaderPipeline {
     public void delete(GL2GL3 gl) {
         super.delete(gl);
 
-        gl.glDeleteBuffers(new int[]{vertCoordBuffer});
+        if (gl.glIsBuffer(vertCoordBuffer)) {
+            gl.glDeleteBuffers(new int[]{vertCoordBuffer});
+            vertCoordBuffer = -1;
+        }
     }
 }

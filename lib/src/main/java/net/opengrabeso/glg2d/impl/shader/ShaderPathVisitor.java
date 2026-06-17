@@ -23,4 +23,15 @@ import net.opengrabeso.glg2d.PathVisitor;
 
 public interface ShaderPathVisitor extends PathVisitor {
     void setGLContext(GL glContext, GLGraphics2D g2D, UniformBufferObject uniforms);
+
+    /**
+     * Releases any GL resources owned by this visitor.
+     * <p>
+     * The default implementation is a no-op so external implementors do not
+     * need to change unless they allocate GL resources.
+     * </p>
+     */
+    default void dispose() {
+        // no-op by default
+    }
 }

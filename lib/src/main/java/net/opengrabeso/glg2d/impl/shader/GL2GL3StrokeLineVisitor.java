@@ -137,4 +137,12 @@ public class GL2GL3StrokeLineVisitor extends SimplePathVisitor implements Shader
 
         buffer.clear();
     }
+
+    @Override
+    public void dispose() {
+        if (gl != null) {
+            pipeline.delete(gl);
+            gl = null;
+        }
+    }
 }

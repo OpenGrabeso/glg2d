@@ -96,4 +96,12 @@ public class GL2ES2StrokeLineVisitor extends BasicStrokeLineVisitor implements S
 
         vBuffer.clear();
     }
+
+    @Override
+    public void dispose() {
+        if (gl != null) {
+            pipeline.delete(gl);
+            gl = null;
+        }
+    }
 }

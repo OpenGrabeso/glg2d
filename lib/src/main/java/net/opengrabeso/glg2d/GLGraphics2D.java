@@ -241,6 +241,15 @@ public class GLGraphics2D extends Graphics2D implements Cloneable {
         return canvasWidth;
     }
 
+    /**
+     * Releases GL resources owned by this graphics instance and its helpers.
+     * <p>
+     * Call this once when the root OpenGL context is about to be torn down and
+     * no further drawing will happen on it. This is separate from
+     * {@link #dispose()}, which is for child graphics objects returned by
+     * {@link #create()}.
+     * </p>
+     */
     public void glDispose() {
         for (G2DDrawingHelper helper : helpers) {
             helper.dispose();

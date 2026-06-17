@@ -110,10 +110,12 @@ public abstract class AbstractShaderPipeline implements ShaderPipeline {
 
     @Override
     public void delete(GL2GL3 gl) {
-        gl.glDeleteProgram(programId);
-        deleteShaders(gl);
+        if (programId > 0) {
+            gl.glDeleteProgram(programId);
+            programId = 0;
+        }
 
-        programId = 0;
+        deleteShaders(gl);
     }
 
     protected void deleteShaders(GL2GL3 gl) {

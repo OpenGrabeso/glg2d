@@ -65,7 +65,10 @@ public class GL2ES2ImageDrawer extends AbstractImageHelper {
     @Override
     public void dispose() {
         super.dispose();
-        shader.delete(gl);
+        if (gl != null) {
+            shader.delete(gl);
+            gl = null;
+        }
     }
 
     @Override
