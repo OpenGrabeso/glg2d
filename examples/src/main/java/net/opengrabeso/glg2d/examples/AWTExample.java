@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 class AWTExample extends JPanel implements AnExample {
+    private final Timer progressTimer;
+    @Override public void startAnimation() { progressTimer.start(); }
+    @Override public void stopAnimation() { progressTimer.stop(); }
     @Override
     public String getTitle() {
         return "AWTExample";
@@ -18,17 +21,8 @@ class AWTExample extends JPanel implements AnExample {
 
     add(new JButton("Press me!"), BorderLayout.NORTH);
 
-    JProgressBar bar = new JProgressBar() {
-      protected void paintComponent(java.awt.Graphics g) {
-       if (g instanceof GLGraphics2D
-           ) {
-         super.paintComponent(g);
-       } else {
-         System.out.println(g.getClass());
-       }
-      }
-    };
-    bar.setIndeterminate(true);
+    JProgressBar bar = new JProgressBar();
+    progressTimer = new Timer(100, event -> bar.setValue((bar.getValue() + 1) % 101));
     add(bar, BorderLayout.SOUTH);
     add(new JSlider(SwingConstants.VERTICAL, 0, 10, 3), BorderLayout.EAST);
 

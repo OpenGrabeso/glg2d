@@ -5,7 +5,7 @@ import javax.swing.*;
 
 // adapted from https://stackoverflow.com/a/6263897/16673
 
-public class G2DExample extends JComponent implements AnExample {
+public class G2DExample extends ExampleScene {
     @Override
     public String getTitle() {
         return "G2DExample";
@@ -40,10 +40,10 @@ public class G2DExample extends JComponent implements AnExample {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintScene(Graphics2D g) {
         int margin = 10;
         Dimension dim = getSize();
-        super.paintComponent(g);
+
         g.setColor(Color.red);
         g.fillRect(margin, margin, dim.width - margin * 2, dim.height - margin * 2);
 

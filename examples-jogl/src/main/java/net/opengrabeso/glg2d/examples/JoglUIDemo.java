@@ -4,6 +4,6 @@ import javax.swing.*;
 
 public class JoglUIDemo {
     public static void main(String[] args) {
-        JoglExampleFactory.display(new UIDemo());
+        JoglExampleFactory.display(UIDemo::new);
     }
 }

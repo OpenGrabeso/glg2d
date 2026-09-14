@@ -7,10 +7,10 @@ import java.awt.geom.Path2D;
 
 // adapted from https://stackoverflow.com/a/6263897/16673
 
-public class G2DExampleComplexClip extends JComponent implements AnExample {
+public class G2DExampleComplexClip extends ExampleScene {
     @Override
     public String getTitle() {
-        return "G2DExample";
+        return "G2DExampleComplexClip";
     }
 
     private static final long serialVersionUID = 1L;
@@ -36,9 +36,9 @@ public class G2DExampleComplexClip extends JComponent implements AnExample {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintScene(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g);
+
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int y = 140;

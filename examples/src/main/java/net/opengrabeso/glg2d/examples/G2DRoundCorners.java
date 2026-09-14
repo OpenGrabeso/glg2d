@@ -6,7 +6,7 @@ import java.awt.geom.PathIterator;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-public class G2DRoundCorners extends JComponent implements AnExample {
+public class G2DRoundCorners extends ExampleScene {
     @Override
     public String getTitle() {
         return "G2DRoundCorners";
@@ -106,11 +106,11 @@ public class G2DRoundCorners extends JComponent implements AnExample {
     }
 
     @Override
-    public void paintComponent(Graphics g0) {
+    protected void paintScene(Graphics2D g0) {
         Graphics2D g2d = (Graphics2D) g0;
         int margin = 0;
         Dimension dim = getSize();
-        super.paintComponent(g2d);
+
         g2d.setColor(Color.white);
         g2d.fillRect(margin, margin, dim.width - margin * 2, dim.height - margin * 2);
 

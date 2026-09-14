@@ -34,6 +34,52 @@ directory. This default build does not require JOGL or GlueGen.
 Run `mvn -Pjogl package` to also build the optional JOGL adapter and examples.
 The artifact versions and LWJGL/JOGL versions are defined in the parent POM.
 
+### Running examples on Windows
+
+The examples create their Swing hierarchy on the EDT and use the default Metal
+look and feel. Geometry scenes explicitly paint a white background. LWJGL's
+canvas renders nested Swing layouts and repaints animations; it is a rendering
+demonstration, without full Swing keyboard/mouse routing. The historical
+`GLFWBasic` entry point now shows a geometry scene using the AWT/LWJGL canvas.
+
+`scripts/examples.ps1` finds Maven on PATH or in IntelliJ IDEA; `-MavenHome`
+overrides discovery. It uses a project-local `target/m2` cache, builds all
+modules, and creates fresh dependency classpaths. For example:
+
+```powershell
+./scripts/examples.ps1 -JavaHome C:/Users/Ondra/.jdks/temurin-17.0.17 -Example LWJGLlUIDemo
+./scripts/examples.ps1 -JavaHome C:/Users/Ondra/.jdks/temurin-21.0.12.1 -Example JoglExampleCurve
+```
+
+The launcher supplies JOGL's required module export on JDK 9+. Use `-SkipBuild`
+only after a successful build and classpath generation with the same sources.
+`-Offline` prevents network access when dependencies are already cached.
+`-JvmOptions '-Dsun.java2d.uiScale=2'` can be used for a 200% scale check.
+
+To validate every entry point in the three example modules on a selected JDK:
+
+```powershell
+./scripts/examples.ps1 -JavaHome C:/Users/Ondra/.jdks/temurin-17.0.17 -Validate -OutputDirectory target/example-smoke/17
+./scripts/examples.ps1 -JavaHome C:/Users/Ondra/.jdks/temurin-21.0.12.1 -Validate -OutputDirectory target/example-smoke/21
+./scripts/examples.ps1 -JavaHome C:/Users/Ondra/.jdks/temurin-25.0.4.1 -Validate -OutputDirectory target/example-smoke/25
+```
+
+Each test JVM has a 30-second timeout, opens and disposes its own window, and
+saves logs and initial/resized PNGs alongside Java2D references. UI demos also
+check animation. GL images come from the framebuffer, not the desktop;
+the pure Swing controls use screen capture and briefly stay on top. Comparison
+allows a two-pixel edge displacement and color/antialiasing differences, while
+requiring visible foreground content (including the small curve). `results.csv`
+records every outcome. These tests require an interactive desktop and native
+OpenGL. CI's JDK 8/17/21/25 matrix verifies builds and CPU geometry only.
+LWJGL tests also remove and reattach the canvas to check context recreation.
+Use `-Module examples-lwjgl` or `-Module examples-jogl` with a separate output
+directory to repeat only one backend's checks.
+Example animation timers start with the window and stop when it is disposed.
+
+See [the recorded Windows validation](docs/example-validation.md) for the JDK
+matrix, evidence locations and remaining rendering limitations.
+
 ### How to use
 
 #### JAAGL

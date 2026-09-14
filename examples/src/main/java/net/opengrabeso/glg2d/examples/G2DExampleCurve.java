@@ -6,10 +6,10 @@ import java.awt.geom.Path2D;
 
 // adapted from https://stackoverflow.com/a/6263897/16673
 
-public class G2DExampleCurve extends JComponent implements AnExample {
+public class G2DExampleCurve extends ExampleScene {
     @Override
     public String getTitle() {
-        return "G2DExample";
+        return "G2DExampleCurve";
     }
 
     private static final long serialVersionUID = 1L;
@@ -27,9 +27,9 @@ public class G2DExampleCurve extends JComponent implements AnExample {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintScene(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g);
+
 
         Path2D.Double shape = new Path2D.Double();
         float scale = 1.33f;

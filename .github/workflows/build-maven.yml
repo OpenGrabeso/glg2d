@@ -6,15 +6,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [8, 17, 21, 25]
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 8
+          java-version: ${{ matrix.java }}
           distribution: temurin
 
       - name: Build with Maven

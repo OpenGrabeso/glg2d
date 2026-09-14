@@ -54,8 +54,11 @@ public class GLG2DSimpleEventListener implements GLEventListener {
     @Override
     public void display(GLAutoDrawable drawable) {
         prePaint(drawable);
-        paintGL(g2d);
-        postPaint(drawable);
+        try {
+            paintGL(g2d);
+        } finally {
+            postPaint(drawable);
+        }
     }
 
     /**
@@ -98,9 +101,11 @@ public class GLG2DSimpleEventListener implements GLEventListener {
         boolean wasDoubleBuffered = comp.isDoubleBuffered();
         comp.setDoubleBuffered(false);
 
-        comp.paint(g2d);
-
-        comp.setDoubleBuffered(wasDoubleBuffered);
+        try {
+            comp.paint(g2d);
+        } finally {
+            comp.setDoubleBuffered(wasDoubleBuffered);
+        }
     }
 
     @Override

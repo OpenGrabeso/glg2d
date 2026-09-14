@@ -4,7 +4,7 @@ import net.opengrabeso.glg2d.GLG2DPanelLWJGL;
 
 public class GLFWBasic {
     public static void main(String[] args) {
-        new GLG2DPanelLWJGL().run();
+        LWJGLExampleFactory.display(G2DExample::new);
     }
 
 }

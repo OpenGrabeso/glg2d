@@ -16,6 +16,10 @@ import javax.swing.tree.*;
 
 @SuppressWarnings("serial")
 public class UIDemo extends JPanel implements AnExample {
+    private Timer progressTimer;
+
+    @Override public void startAnimation() { progressTimer.start(); }
+    @Override public void stopAnimation() { progressTimer.stop(); }
     @Override
     public String getTitle() {
         return "UIDemo";
@@ -83,7 +87,7 @@ public class UIDemo extends JPanel implements AnExample {
 
         final JProgressBar bbar = new JProgressBar();
         panel.add(bbar);
-        Timer timer = new Timer(100, new ActionListener() {
+        progressTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int value = bbar.getValue() + 1;
@@ -91,8 +95,7 @@ public class UIDemo extends JPanel implements AnExample {
                 bbar.setValue(value);
             }
         });
-        timer.setRepeats(true);
-        timer.start();
+        progressTimer.setRepeats(true);
 
         return panel;
     }

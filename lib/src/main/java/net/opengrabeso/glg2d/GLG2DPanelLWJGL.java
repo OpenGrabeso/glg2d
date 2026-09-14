@@ -14,12 +14,18 @@ import java.awt.*;
 /**
  * LWJGL-backed OpenGL canvas that renders a Swing JComponent using GLG2D.
  * This replaces the previous GLFW window approach so it can be embedded in Swing.
+ * The component is a rendering tree, not an interactive Swing child: input and
+ * focus are not forwarded. Create and use the canvas and its component on the EDT.
+ * Nested components receive peer lifecycle notifications and layout before painting.
  */
 public class GLG2DPanelLWJGL extends AWTGLCanvas {
     private final JComponent component;
 
     private GL2GL3 gl;
     private GLShaderGraphics2D graphics2D;
+    private GLCapabilities capabilities;
+    private String title = "GLG2D";
+    private final Timer repaintTimer = new Timer(33, event -> repaint());
 
     public GLG2DPanelLWJGL(JComponent component) {
         super(createGLData());
@@ -37,7 +43,7 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
     }
     public GLG2DPanelLWJGL(JComponent component, String title) {
         this(component);
-        // title is not used in AWTGLCanvas mode, kept for API compatibility
+        this.title = title;
     }
 
     private static GLData createGLData() {
@@ -54,7 +60,7 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
 
     @Override
     public void initGL() {
-        GLCapabilities caps = GL.createCapabilities();
+        GLCapabilities caps = capabilities = GL.createCapabilities();
         if (caps.OpenGL30) {
             gl = com.github.opengrabeso.jaagl.lwjgl.LWGL.createGL3();
         } else {
@@ -70,10 +76,14 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
     }
 
     public void showInFrame() {
-        JFrame frame = new JFrame("GLG2D");
+        if (!SwingUtilities.isEventDispatchThread()) {
+            SwingUtilities.invokeLater(this::showInFrame);
+            return;
+        }
+        JFrame frame = new JFrame(title);
         frame.getContentPane().add(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(800, 600));
+        if (component == null) setPreferredSize(new Dimension(800, 600));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -84,7 +94,9 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
         int w = Math.max(1, getWidth());
         int h = Math.max(1, getHeight());
 
-        GL11.glViewport(0, 0, w, h);
+        GL.setCapabilities(capabilities);
+        java.awt.geom.AffineTransform scale = getGraphicsConfiguration().getDefaultTransform();
+        GL11.glViewport(0, 0, (int) Math.round(w * scale.getScaleX()), (int) Math.round(h * scale.getScaleY()));
         Color bg = component != null && component.getBackground() != null ? component.getBackground() : Color.DARK_GRAY;
         GL11.glClearColor(bg.getRed()/255f, bg.getGreen()/255f, bg.getBlue()/255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
@@ -93,14 +105,20 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
             if (component.getWidth() != w || component.getHeight() != h) {
                 component.setSize(w, h);
             }
+            layoutTree(component);
 
             // Prepare GLG2D and render Swing component
             graphics2D.prePaint(gl);
+            RepaintManager manager = RepaintManager.currentManager(component);
+            boolean buffered = manager.isDoubleBufferingEnabled();
             try {
+                manager.setDoubleBufferingEnabled(false);
                 Graphics2D g2 = graphics2D;
+                g2.scale(scale.getScaleX(), scale.getScaleY());
                 g2.setClip(new Rectangle(0, 0, w, h));
                 component.paint(g2);
             } finally {
+                manager.setDoubleBufferingEnabled(buffered);
                 graphics2D.postPaint();
             }
         }
@@ -110,12 +128,56 @@ public class GLG2DPanelLWJGL extends AWTGLCanvas {
 
     private void doPaint() {
         assert SwingUtilities.isEventDispatchThread();
+        if (!isShowing()) return;
+        Graphics g = getGraphics();
         try {
-            Graphics g = getGraphics(); // this call is necessary, it causes swing to flush its rendering - calls WWindowPeer.getStateLock
             render();
+        } finally {
             if (g != null) g.dispose();
-        } catch (Exception e) { // we want to print possible hidden asserts too
-            e.printStackTrace(); 
+        }
+    }
+
+    private static void layoutTree(Container parent) {
+        parent.doLayout();
+        for (Component child : parent.getComponents()) {
+            if (child instanceof Container) layoutTree((Container) child);
+        }
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        if (component != null) component.addNotify();
+        repaintTimer.start();
+    }
+
+    @Override
+    public void removeNotify() {
+        repaintTimer.stop();
+        try {
+            if (graphics2D != null) runInContext(() -> {
+                GL.setCapabilities(capabilities);
+                graphics2D.glDispose();
+            });
+        } finally {
+            try {
+                // lwjgl3-awt 0.1.8 clears the handle in removeNotify but only
+                // releases the AWT drawing surface; it does not delete the GL context.
+                if (context != 0 && !platformCanvas.deleteContext(context)) {
+                    throw new IllegalStateException("Could not delete LWJGL OpenGL context");
+                }
+            } finally {
+                context = 0;
+                gl = null;
+                graphics2D = null;
+                capabilities = null;
+                GL.setCapabilities(null);
+                try {
+                    if (component != null) component.removeNotify();
+                } finally {
+                    super.removeNotify();
+                }
+            }
         }
     }
 

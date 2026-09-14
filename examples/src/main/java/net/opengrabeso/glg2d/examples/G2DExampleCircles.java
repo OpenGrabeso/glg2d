@@ -6,10 +6,10 @@ import java.awt.geom.Path2D;
 
 // adapted from https://stackoverflow.com/a/6263897/16673
 
-public class G2DExampleCircles extends JComponent implements AnExample {
+public class G2DExampleCircles extends ExampleScene {
     @Override
     public String getTitle() {
-        return "G2DExample";
+        return "G2DExampleCircles";
     }
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +23,8 @@ public class G2DExampleCircles extends JComponent implements AnExample {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(400, 300);
+        // The last arc-built circle ends at x=579; keep the whole row visible.
+        return new Dimension(600, 300);
     }
 
     private void drawCircleUsingArc(Graphics2D g2d, int x, int y, int w, int h, int segments) {
@@ -35,9 +36,9 @@ public class G2DExampleCircles extends JComponent implements AnExample {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintScene(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g);
+
 
         Path2D.Double shape = new Path2D.Double();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
