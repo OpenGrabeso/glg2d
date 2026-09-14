@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.opengrabeso</groupId>
+    <artifactId>glg2d-parent</artifactId>
+    <version>flatten-central-version</version>
+  </parent>
+  <artifactId>glg2d-jogl</artifactId>
+  <version>${projversion}</version>
+  <name>GLG2D JOGL adapter</name>
+  <properties>
+    <maven.deploy.skip>false</maven.deploy.skip>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>net.opengrabeso</groupId>
+      <artifactId>glg2d</artifactId>
+      <version>${projversion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.gluegen</groupId>
+      <artifactId>gluegen-rt-main</artifactId>
+      <version>${jogl.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.jogl</groupId>
+      <artifactId>jogl-all-main</artifactId>
+      <version>${jogl.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.opengrabeso</groupId>
+      <artifactId>glg2d</artifactId>
+      <version>${projversion}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.joml</groupId>
+      <artifactId>joml</artifactId>
+      <version>1.9.25</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

@@ -13,14 +13,23 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.deploy.skip>true</maven.deploy.skip>
+    <skipTests>true</skipTests>
   </properties>
 
   <modules>
     <module>lib</module>
     <module>examples</module>
-    <module>examples-jogl</module>
     <module>examples-lwjgl</module>
   </modules>
+  <profiles>
+    <profile>
+      <id>jogl</id>
+      <modules>
+        <module>jogl</module>
+        <module>examples-jogl</module>
+      </modules>
+    </profile>
+  </profiles>
   <packaging>pom</packaging>
   <name>GLG2D</name>
   <description>Graphics2D using OpenGL for JOGL and LWJGL</description>
@@ -79,7 +88,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0</version>
         <configuration>
-          <skipTests>true</skipTests>
+          <skipTests>${skipTests}</skipTests>
         </configuration>
       </plugin>
 
@@ -143,10 +152,6 @@
         <version>3.5.0</version>
         <configuration>
           <detectLinks>true</detectLinks>
-          <links>
-            <link>http://jogamp.org/deployment/v${jogl.version}/javadoc/jogl/javadoc/</link>
-            <link>http://jogamp.org/deployment/v${jogl.version}/javadoc/gluegen/javadoc/</link>
-          </links>
           <archive>
             <manifestEntries>
               <Implementation-Title>${project.name}</Implementation-Title>

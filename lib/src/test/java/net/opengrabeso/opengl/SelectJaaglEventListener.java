@@ -1,14 +1,8 @@
 package net.opengrabeso.opengl;
 
 import com.github.opengrabeso.jaagl.GL2GL3;
-import com.github.opengrabeso.jaagl.GL3;
-import com.jogamp.common.util.InterruptSource;
-import com.jogamp.opengl.awt.GLCanvas;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Arrays;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -94,35 +88,13 @@ public class SelectJaaglEventListener {
 
 
         } else {
-            final Frame frame = new Frame(getClass().getName());
-            frame.setLayout(new BorderLayout());
-
-            final GLCanvas canvas = new GLCanvas();
-
-            Jaagl2EventListenerJogl listenerJogl = new Jaagl2EventListenerJogl(jaaglListener);
-
-            canvas.addGLEventListener(listenerJogl);
-            frame.add(canvas, BorderLayout.CENTER);
-
-            frame.setSize(512, 512);
-            frame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(final WindowEvent e) {
-                    new InterruptSource.Thread(null, new Runnable() {
-                        public void run() {
-                            System.exit(0);
-                        }
-                    }).start();
+            for (JaaglTestBackend backend : java.util.ServiceLoader.load(JaaglTestBackend.class)) {
+                if (backend.name().equals("jogl")) {
+                    backend.run(jaaglListener);
+                    return;
                 }
-            });
-            try {
-                javax.swing.SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        frame.setVisible(true);
-                    }
-                });
-            } catch (final Exception ex) {
-                throw new RuntimeException(ex);
             }
+            throw new IllegalStateException("The -jogl test backend requires glg2d-jogl test classes on the classpath.");
         }
     }
 

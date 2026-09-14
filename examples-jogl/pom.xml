@@ -18,6 +18,11 @@
   <dependencies>
     <dependency>
       <groupId>net.opengrabeso</groupId>
+      <artifactId>glg2d-jogl</artifactId>
+      <version>${projversion}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.opengrabeso</groupId>
       <artifactId>examples</artifactId>
       <version>${projversion}</version>
     </dependency>

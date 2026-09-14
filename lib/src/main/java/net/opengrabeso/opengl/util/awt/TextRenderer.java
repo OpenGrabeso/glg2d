@@ -67,23 +67,21 @@ import java.util.*;
  * has no visible controls in the public API. <P>
  * <p>
  * Using the {@link TextRenderer TextRenderer} is simple. Add a
- * "<code>TextRenderer renderer;</code>" field to your {@link
- * com.jogamp.opengl.GLEventListener GLEventListener}. In your {@link
- * com.jogamp.opengl.GLEventListener#init init} method, add:
+ * "<code>TextRenderer renderer;</code>" field to your renderer. With a current
+ * OpenGL context and its JAAGL wrapper {@code gl}, initialize it with:
  *
  * <PRE>
- * renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 36));
+ * renderer = new TextRenderer(gl, new Font("SansSerif", Font.BOLD, 36), true, false);
  * </PRE>
  *
- * <P> In the {@link com.jogamp.opengl.GLEventListener#display display} method of your
- * {@link com.jogamp.opengl.GLEventListener GLEventListener}, add:
+ * <P> During rendering, supply the model-view-projection matrix as 16 floats:
  * <PRE>
- * renderer.beginRendering(drawable.getWidth(), drawable.getHeight());
+ * renderer.begin3DRendering(transform);
  * // optionally set the color
  * renderer.setColor(1.0f, 0.2f, 0.2f, 0.8f);
- * renderer.draw("Text to draw", xPosition, yPosition);
+ * renderer.draw3D("Text to draw", xPosition, yPosition, 0, 1, false);
  * // ... more draw commands, color changes, etc.
- * renderer.endRendering();
+ * renderer.end3DRendering();
  * </PRE>
  * <p>
  * Unless you are sharing textures and display lists between OpenGL
@@ -101,13 +99,13 @@ import java.util.*;
  * pack both glyphs and full Strings' rendering results (which are
  * variable size) onto a larger OpenGL texture. The internal backing
  * store is maintained using a {@link
- * com.jogamp.opengl.util.awt.TextureRenderer TextureRenderer}. A least
+ * net.opengrabeso.opengl.util.awt.TextureRenderer TextureRenderer}. A least
  * recently used (LRU) algorithm is used to discard previously
  * rendered strings; the specific algorithm is undefined, but is
  * currently implemented by flushing unused Strings' rendering
  * results every few hundred rendering cycles, where a rendering
- * cycle is defined as a pair of calls to {@link #beginRendering
- * beginRendering} / {@link #endRendering endRendering}.
+ * cycle is defined as a pair of calls to {@link #begin3DRendering
+ * begin3DRendering} / {@link #end3DRendering end3DRendering}.
  *
  * @author John Burkey
  * @author Kenneth Russell
@@ -326,7 +324,7 @@ public class TextRenderer {
      * one, where each component ranges from 0.0f - 1.0f. The alpha
      * component, if used, does not need to be premultiplied into the
      * color channels as described in the documentation for {@link
-     * com.jogamp.opengl.util.texture.Texture Texture}, although
+     * net.opengrabeso.opengl.util.texture.Texture Texture}, although
      * premultiplied colors are used internally. The default color is
      * opaque white.
      *

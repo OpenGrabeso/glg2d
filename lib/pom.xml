@@ -33,20 +33,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- JOGL as provided only, so that the user can opt-in -->
-    <dependency>
-      <groupId>org.jogamp.gluegen</groupId>
-      <artifactId>gluegen-rt-main</artifactId>
-      <version>${jogl.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jogamp.jogl</groupId>
-      <artifactId>jogl-all-main</artifactId>
-      <version>${jogl.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
     <!-- LWJGL as provided only, so that the user can opt-in -->
     <!-- natives, jawt or glfw not needed here -->
     <dependency>
@@ -75,6 +61,38 @@
     </dependency>
 
   </dependencies>
-
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>no-jogamp</id>
+            <goals><goal>enforce</goal></goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <excludes><exclude>org.jogamp.*:*</exclude><exclude>net.opengrabeso:glg2d-jogl</exclude></excludes>
+                  <searchTransitive>true</searchTransitive>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>shared-rendering-tests</id>
+            <phase>process-test-classes</phase>
+            <goals><goal>test-jar</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

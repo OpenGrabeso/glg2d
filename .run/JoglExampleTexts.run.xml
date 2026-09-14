@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JoglExampleTexts (JDK 9+)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="net.opengrabeso.glg2d.examples.JoglExampleTexts" />
+    <module name="examples-jogl" />
+    <option name="VM_PARAMETERS" value="--add-exports=java.desktop/sun.awt=ALL-UNNAMED" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

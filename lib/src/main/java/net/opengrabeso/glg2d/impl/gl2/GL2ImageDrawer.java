@@ -22,7 +22,6 @@ import com.github.opengrabeso.jaagl.GL;
 import com.github.opengrabeso.jaagl.GL2;
 import com.github.opengrabeso.jaagl.GL2GL3;
 
-import com.github.opengrabeso.jaagl.jogl.JoGL;
 import net.opengrabeso.glg2d.impl.AbstractImageHelper;
 import net.opengrabeso.glg2d.GLGraphics2D;
 

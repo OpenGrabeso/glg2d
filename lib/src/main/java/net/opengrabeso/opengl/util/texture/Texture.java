@@ -334,8 +334,8 @@ public class Texture {
     /**
      * Returns the OpenGL "target" of this texture.
      *
-     * @see com.jogamp.opengl.GL#GL_TEXTURE_2D
-     * @see com.jogamp.opengl.GL2#GL_TEXTURE_RECTANGLE_ARB
+     * @see com.github.opengrabeso.jaagl.GL#GL_TEXTURE_2D()
+     * @see com.github.opengrabeso.jaagl.GL2GL3#GL_TEXTURE_RECTANGLE_ARB()
      */
     public int getTarget() {
         return target;
@@ -344,8 +344,8 @@ public class Texture {
     /**
      * Returns the image OpenGL "target" of this texture, or its sub-components if cubemap.
      *
-     * @see com.jogamp.opengl.GL#GL_TEXTURE_2D
-     * @see com.jogamp.opengl.GL2#GL_TEXTURE_RECTANGLE_ARB
+     * @see com.github.opengrabeso.jaagl.GL#GL_TEXTURE_2D()
+     * @see com.github.opengrabeso.jaagl.GL2GL3#GL_TEXTURE_RECTANGLE_ARB()
      */
     public int getImageTarget() {
         return imageTarget;

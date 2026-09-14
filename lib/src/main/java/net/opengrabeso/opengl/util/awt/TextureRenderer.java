@@ -58,7 +58,7 @@ import net.opengrabeso.opengl.util.texture.awt.*;
 
 /**
  * Provides the ability to render into an OpenGL {@link
- * com.jogamp.opengl.util.texture.Texture Texture} using the Java 2D
+ * net.opengrabeso.opengl.util.texture.Texture Texture} using the Java 2D
  * APIs. This renderer class uses an internal Java 2D image (of
  * unspecified type) for its backing store and flushes portions of
  * that image to an OpenGL texture on demand. The resulting OpenGL

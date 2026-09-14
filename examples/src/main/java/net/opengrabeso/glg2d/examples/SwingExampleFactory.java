@@ -1,6 +1,5 @@
 package net.opengrabeso.glg2d.examples;
 
-import net.opengrabeso.glg2d.GLG2DPanel;
 
 import javax.swing.*;
 import java.awt.*;

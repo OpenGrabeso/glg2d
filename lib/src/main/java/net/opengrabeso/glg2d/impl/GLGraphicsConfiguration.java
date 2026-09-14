@@ -25,7 +25,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 
 import com.github.opengrabeso.jaagl.GL;
-import com.jogamp.opengl.GLDrawable;
 
 /**
  * Fulfills the contract of a {@code GraphicsConfiguration}.
@@ -46,7 +45,7 @@ public class GLGraphicsConfiguration extends GraphicsConfiguration {
     public GLGraphicsConfiguration(GL gl, int width, int height) {
         this.width = width;
         this.height = height;
-        onScreen = true; // TODO: verify against JOGL
+        onScreen = true; // TODO: distinguish onscreen and offscreen contexts
         device = new GLGraphicsDevice(this);
     }
 

@@ -465,10 +465,10 @@ public abstract class JoGL extends GLBase {
         return com.jogamp.opengl.GL.GL_ZERO;
     }
 
-    @Override public int GL_STENCIL_TEST() {return org.lwjgl.opengl.GL11.GL_STENCIL_TEST;}
-    @Override public int GL_STENCIL_BUFFER_BIT() {return org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;}
-    @Override public int GL_ALWAYS() {return org.lwjgl.opengl.GL11.GL_ALWAYS;}
-    @Override public int GL_EQUAL() {return org.lwjgl.opengl.GL11.GL_EQUAL;}
-    @Override public int GL_KEEP() {return org.lwjgl.opengl.GL11.GL_KEEP;}
-    @Override public int GL_REPLACE() {return org.lwjgl.opengl.GL11.GL_REPLACE;}
+    @Override public int GL_STENCIL_TEST() {return com.jogamp.opengl.GL.GL_STENCIL_TEST;}
+    @Override public int GL_STENCIL_BUFFER_BIT() {return com.jogamp.opengl.GL.GL_STENCIL_BUFFER_BIT;}
+    @Override public int GL_ALWAYS() {return com.jogamp.opengl.GL.GL_ALWAYS;}
+    @Override public int GL_EQUAL() {return com.jogamp.opengl.GL.GL_EQUAL;}
+    @Override public int GL_KEEP() {return com.jogamp.opengl.GL.GL_KEEP;}
+    @Override public int GL_REPLACE() {return com.jogamp.opengl.GL.GL_REPLACE;}
 }
