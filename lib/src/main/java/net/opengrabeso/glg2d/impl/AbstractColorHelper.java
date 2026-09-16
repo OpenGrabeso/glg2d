@@ -52,7 +52,7 @@ public abstract class AbstractColorHelper implements GLG2DColorHelper {
 
         // set all the states
         setComposite(getComposite());
-        setColor(getColor());
+        setPaint(getPaint());
         setBackground(getBackground());
     }
 
@@ -133,6 +133,7 @@ public abstract class AbstractColorHelper implements GLG2DColorHelper {
         }
 
         stack.peek().color = c;
+        stack.peek().paint = c;
         setColorRespectComposite(c);
     }
 
@@ -153,6 +154,15 @@ public abstract class AbstractColorHelper implements GLG2DColorHelper {
 
     @Override
     public void setPaint(Paint paint) {
+        if (paint == null) {
+            return;
+        }
+
+        if (paint instanceof Color) {
+            setColor((Color) paint);
+            return;
+        }
+
         stack.peek().paint = paint;
     }
 

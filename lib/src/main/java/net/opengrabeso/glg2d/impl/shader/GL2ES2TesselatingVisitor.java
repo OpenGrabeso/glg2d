@@ -62,11 +62,9 @@ public class GL2ES2TesselatingVisitor extends AbstractTesselatorVisitor implemen
 
     @Override
     public void beginPoly(int windingRule) {
-        pipeline.use(gl, true);
-
         super.beginPoly(windingRule);
 
-        pipeline.setColor(gl, uniforms.colorHook.getRGBA());
+        pipeline.setPaint(gl, glg2d.getPaint(), uniforms.colorHook.getRGBA(), uniforms.colorHook.getAlpha());
         pipeline.setTransform(gl, uniforms.transformHook.getGLMatrixData());
     }
 
@@ -74,7 +72,7 @@ public class GL2ES2TesselatingVisitor extends AbstractTesselatorVisitor implemen
     public void endPoly() {
         super.endPoly();
 
-        pipeline.use(gl, false);
+        pipeline.finishPaint(gl);
     }
 
     @Override

@@ -69,9 +69,8 @@ public class GL2ES2StrokeLineVisitor extends BasicStrokeLineVisitor implements S
 
     @Override
     public void beginPoly(int windingRule) {
-        pipeline.use(gl, true);
+        pipeline.setPaint(gl, glg2d.getPaint(), uniforms.colorHook.getRGBA(), uniforms.colorHook.getAlpha());
         pipeline.setTransform(gl, uniforms.transformHook.getGLMatrixData());
-        pipeline.setColor(gl, uniforms.colorHook.getRGBA());
 
         super.beginPoly(windingRule);
     }
@@ -80,7 +79,7 @@ public class GL2ES2StrokeLineVisitor extends BasicStrokeLineVisitor implements S
     public void endPoly() {
         super.endPoly();
 
-        pipeline.use(gl, false);
+        pipeline.finishPaint(gl);
     }
 
     @Override

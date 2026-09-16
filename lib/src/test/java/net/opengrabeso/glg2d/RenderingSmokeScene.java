@@ -5,8 +5,10 @@ import net.opengrabeso.glg2d.impl.shader.GLShaderGraphics2D;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +67,21 @@ public final class RenderingSmokeScene {
         ig.fillRect(0, 0, 24, 24);
         ig.dispose();
         g.drawImage(image, 275, 135, null);
+
+        g.setPaint(new LinearGradientPaint(
+                15, 190, 165, 190,
+                new float[]{0, 0.5f, 1},
+                new Color[]{Color.RED, Color.GREEN, Color.BLUE}));
+        g.fillRoundRect(15, 190, 150, 35, 14, 14);
+
+        g.setPaint(new LinearGradientPaint(
+                new Point2D.Float(190, 190), new Point2D.Float(340, 225),
+                new float[]{0, 0.45f, 1},
+                new Color[]{new Color(255, 255, 0, 32), new Color(255, 0, 255, 160), new Color(0, 255, 255, 255)},
+                MultipleGradientPaint.CycleMethod.NO_CYCLE,
+                MultipleGradientPaint.ColorSpaceType.SRGB,
+                AffineTransform.getRotateInstance(Math.toRadians(5), 265, 207.5)));
+        g.fillRoundRect(190, 190, 150, 35, 14, 14);
     }
 
     public static void verify(ByteBuffer pixels, File directory, String backend) throws IOException {
@@ -94,6 +111,7 @@ public final class RenderingSmokeScene {
                             && (rendered & 255) < 128) darkTextPixels++;
                     continue;
                 }
+                if (y >= 180) continue;
                 boolean interior = true;
                 for (int dy = -3; dy <= 3; dy++) {
                     for (int dx = -3; dx <= 3; dx++) {
@@ -107,8 +125,29 @@ public final class RenderingSmokeScene {
         }
         System.out.println(backend + ": compared=" + compared + ", mismatches=" + mismatches
                 + ", textPixels=" + darkTextPixels);
-        if (compared < 40000 || mismatches != 0 || darkTextPixels < 100 || darkTextPixels > 2500) {
+        assertCloseToReference(actual, expected, 45, 207, 8);
+        assertCloseToReference(actual, expected, 90, 207, 8);
+        assertCloseToReference(actual, expected, 145, 207, 8);
+        assertCloseToReference(actual, expected, 215, 207, 10);
+        assertCloseToReference(actual, expected, 265, 207, 10);
+        assertCloseToReference(actual, expected, 320, 207, 10);
+        if (compared < 35000 || mismatches != 0 || darkTextPixels < 100 || darkTextPixels > 2500) {
             throw new AssertionError("Rendering differs from Java2D; inspect " + directory);
+        }
+    }
+
+    private static void assertCloseToReference(BufferedImage actual, BufferedImage expected,
+                                               int x, int y, int tolerance) {
+        int actualRgb = actual.getRGB(x, y);
+        int expectedRgb = expected.getRGB(x, y);
+        for (int shift : new int[]{16, 8, 0}) {
+            int actualChannel = (actualRgb >> shift) & 255;
+            int expectedChannel = (expectedRgb >> shift) & 255;
+            if (Math.abs(actualChannel - expectedChannel) > tolerance) {
+                throw new AssertionError("Gradient pixel differs at " + x + "," + y
+                        + ": expected=" + Integer.toHexString(expectedRgb)
+                        + ", actual=" + Integer.toHexString(actualRgb));
+            }
         }
     }
 }

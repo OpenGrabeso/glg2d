@@ -73,9 +73,7 @@ public class GL2ES2SimpleConvexFillVisitor extends SimplePathVisitor implements 
     @Override
     public void beginPoly(int windingRule) {
         // do we need to care about winding rule?
-        pipeline.use(gl, true);
-
-        pipeline.setColor(gl, uniforms.colorHook.getRGBA());
+        pipeline.setPaint(gl, glg2d.getPaint(), uniforms.colorHook.getRGBA(), uniforms.colorHook.getAlpha());
         pipeline.setTransform(gl, uniforms.transformHook.getGLMatrixData());
 
         vBuffer.clear();
@@ -105,7 +103,7 @@ public class GL2ES2SimpleConvexFillVisitor extends SimplePathVisitor implements 
     @Override
     public void endPoly() {
         draw();
-        pipeline.use(gl, false);
+        pipeline.finishPaint(gl);
     }
 
     protected void draw() {
