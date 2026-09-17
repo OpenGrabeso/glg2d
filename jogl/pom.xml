@@ -52,4 +52,20 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- These tests open interactive Swing/GLCanvas windows and remain available for manual runs. -->
+          <excludes>
+            <exclude>**/MovePanelTest.java</exclude>
+            <exclude>**/StressTest.java</exclude>
+            <exclude>**/VisualTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
