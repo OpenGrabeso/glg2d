@@ -27,6 +27,8 @@ public interface GL {
 
     int GL_SRC_ALPHA();
 
+    int GL_DST_COLOR();
+
     int GL_ONE_MINUS_SRC_ALPHA();
 
     int GL_TEXTURE_2D();

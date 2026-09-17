@@ -83,6 +83,11 @@ public abstract class LWGL extends GLBase {
     }
 
     @Override
+    public int GL_DST_COLOR() {
+        return org.lwjgl.opengl.GL11.GL_DST_COLOR;
+    }
+
+    @Override
     public int GL_ONE_MINUS_SRC_ALPHA() {
         return org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
     }

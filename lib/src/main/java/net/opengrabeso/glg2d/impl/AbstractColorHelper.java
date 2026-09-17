@@ -20,6 +20,8 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Paint;
 import java.awt.RenderingHints.Key;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -116,8 +118,34 @@ public abstract class AbstractColorHelper implements GLG2DColorHelper {
             stack.peek().composite = comp;
             // need to pre-multiply the alpha
             setColor(getColor());
+        } else if (isMultiplyComposite(comp)) {
+            gl.glBlendFuncSeparate(
+                    gl.GL_DST_COLOR(), gl.GL_ONE_MINUS_SRC_ALPHA(),
+                    gl.GL_ZERO(), gl.GL_ONE());
+            stack.peek().composite = comp;
+            setColor(getColor());
         } else {
-            GLG2DNotImplemented.notImplemented("setComposite(Composite) with " + comp == null ? "null Composite" : comp.getClass().getSimpleName());
+            GLG2DNotImplemented.notImplemented(
+                    "setComposite(Composite) with "
+                            + (comp == null ? "null Composite" : comp.getClass().getSimpleName()));
+        }
+    }
+
+    /**
+     * Recognizes the small structural protocol used by optional renderer integrations.
+     * A custom {@link Composite} can request GPU multiply blending by exposing a public
+     * {@code String getBlendMode()} method which returns {@code "multiply"}.
+     */
+    static boolean isMultiplyComposite(Composite composite) {
+        if (composite == null) {
+            return false;
+        }
+
+        try {
+            Method blendMode = composite.getClass().getMethod("getBlendMode");
+            return "multiply".equals(blendMode.invoke(composite));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+            return false;
         }
     }
 

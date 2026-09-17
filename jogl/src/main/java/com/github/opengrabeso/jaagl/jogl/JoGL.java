@@ -103,6 +103,11 @@ public abstract class JoGL extends GLBase {
     }
 
     @Override
+    public int GL_DST_COLOR() {
+        return com.jogamp.opengl.GL.GL_DST_COLOR;
+    }
+
+    @Override
     public int GL_ONE_MINUS_SRC_ALPHA() {
         return com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
     }
